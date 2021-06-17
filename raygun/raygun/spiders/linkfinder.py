@@ -7,6 +7,7 @@ from scrapy.spiders import Rule, CrawlSpider
 class RaygunItem(scrapy.Item):
     url_from = scrapy.Field()
     url_to = scrapy.Field()
+    link_text = scrapy.Field()
     pass
 
 
@@ -38,6 +39,7 @@ class LinkSpider(CrawlSpider):
                 item = RaygunItem()
                 item['url_from'] = response.url
                 item['url_to'] = link.url
+                item['link_text'] = link.text
                 items.append(item)
 
         return items
