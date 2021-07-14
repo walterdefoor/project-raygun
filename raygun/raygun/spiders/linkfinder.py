@@ -12,6 +12,8 @@ class RaygunItem(scrapy.Item):
 
 
 class LinkSpider(CrawlSpider):
+    http_user = 'username'
+    http_pass = "password"
     name = 'links'
     start_urls = ['http://books.toscrape.com/']
     allowed_domains = ['books.toscrape.com']
