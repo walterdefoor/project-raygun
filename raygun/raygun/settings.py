@@ -44,15 +44,15 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'raygun.middlewares.RaygunSpiderMiddleware': 543,
-#}
+SPIDER_MIDDLEWARES = {
+   'raygun.middlewares.RaygunSpiderMiddleware': 543,
+}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'raygun.middlewares.RaygunDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   'raygun.middlewares.RaygunDownloaderMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -86,3 +86,5 @@ ROBOTSTXT_OBEY = False
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+FEEDS = {"links.jsonl": {"format": "jsonlines"}}
+AUTOTHROTTLE_ENABLED = False
