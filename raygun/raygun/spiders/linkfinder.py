@@ -1,8 +1,6 @@
 import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import Rule, CrawlSpider
-#from ..items import RaygunItem
-
 
 class RaygunItem(scrapy.Item):
     url_from = scrapy.Field()
@@ -12,9 +10,7 @@ class RaygunItem(scrapy.Item):
 
 
 class LinkSpider(CrawlSpider):
-    http_user = 'username'
-    http_pass = "password"
-    name = 'links'
+    name = "links"
     start_urls = ['http://books.toscrape.com/']
     allowed_domains = ['books.toscrape.com']
     rules = [

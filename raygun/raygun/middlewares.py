@@ -7,7 +7,8 @@ from scrapy import signals
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
-
+from scrapy.http import HtmlResponse
+from selenium import webdriver
 
 class RaygunSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -56,10 +57,13 @@ class RaygunSpiderMiddleware:
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-class RaygunDownloaderMiddleware:
+class RaygunDownloaderMiddleware():
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
+
+    def __init__(self):
+        self.driver = webdriver.Firefox()
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -69,16 +73,10 @@ class RaygunDownloaderMiddleware:
         return s
 
     def process_request(self, request, spider):
-        # Called for each request that goes through the downloader
-        # middleware.
-
-        # Must either:
-        # - return None: continue processing this request
-        # - or return a Response object
-        # - or return a Request object
-        # - or raise IgnoreRequest: process_exception() methods of
-        #   installed downloader middleware will be called
-        return None
+        print("USing my middleware!")
+        self.driver.get(request.url)
+        body = self.driver.page_source
+        return HtmlResponse(self.driver.current_url, body=body, encoding='utf-8', request=request)
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
