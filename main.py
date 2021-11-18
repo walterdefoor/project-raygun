@@ -1,13 +1,18 @@
 import time
 import os
-
 # fix the path to accomodate a weird structure here
 import sys
 sys.path.insert(0, "raygun/")
+import dotenv
+
+dotenv.load_dotenv()
 
 from raygun.spiders import linkfinder
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
+
+START_URL = os.getenv('SCRAPY_START_URL')
+ALLOWED_DOMAIN = os.getenv('SCRAPY_ALLOWED_DOMAIN')
 
 def main():
     print('Initiating Crawl')
@@ -16,10 +21,11 @@ def main():
     process = CrawlerProcess(settings=get_project_settings())
 
     process.crawl(linkfinder.LinkSpider,
-                  start_urls=["https://rwalk.xyz/"],
-                  allowed_domains=["rwalk.xyz"])
+                  start_urls=[START_URL],
+                  allowed_domains=[ALLOWED_DOMAIN])
     process.start()
     return
+
 
 if __name__ == '__main__':
     start_time = time.time()

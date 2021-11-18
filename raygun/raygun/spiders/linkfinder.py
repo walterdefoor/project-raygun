@@ -23,21 +23,25 @@ class LinkSpider(CrawlSpider):
             callback="parse_items"
         )
     ]
+    seen_urls = []
+    f = open("seen_urls.txt", 'w')
 
     def parse_items(self, response):
         items = []
         links = LinkExtractor(canonicalize=True, unique=True).extract_links(response)
 
         for link in links:
-            is_allowed = False
-            for allowed_domain in self.allowed_domains:
-                if allowed_domain in link.url:
-                    is_allowed = True
-            if is_allowed:
-                item = RaygunItem()
-                item['url_from'] = response.url
-                item['url_to'] = link.url
-                item['link_text'] = link.text
-                items.append(item)
-
+            if link.url not in self.seen_urls:
+                self.seen_urls.append(link.url)
+                is_allowed = False
+                for allowed_domain in self.allowed_domains:
+                    if allowed_domain in link.url:
+                        is_allowed = True
+                if is_allowed:
+                    item = RaygunItem()
+                    item['url_from'] = response.url
+                    item['url_to'] = link.url
+                    item['link_text'] = link.text
+                    items.append(item)
+                self.f.write(str(link.url) + "\n")
         return items

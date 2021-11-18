@@ -9,6 +9,8 @@ from scrapy import signals
 from itemadapter import is_item, ItemAdapter
 from scrapy.http import HtmlResponse
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+
 
 class RaygunSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -63,7 +65,10 @@ class RaygunDownloaderMiddleware():
     # passed objects.
 
     def __init__(self):
-        self.driver = webdriver.Firefox()
+        options = Options()
+        options.headless = True
+        self.driver = webdriver.Firefox(options=options)
+        print("Headless Firefox engaged!")
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -73,7 +78,7 @@ class RaygunDownloaderMiddleware():
         return s
 
     def process_request(self, request, spider):
-        print("USing my middleware!")
+        print("Using my middleware!")
         self.driver.get(request.url)
         body = self.driver.page_source
         return HtmlResponse(self.driver.current_url, body=body, encoding='utf-8', request=request)

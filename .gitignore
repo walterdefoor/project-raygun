@@ -1,2 +1,7 @@
 # Project exclude paths
 /venv/
+.env
+upload_links.py
+geckodriver.log
+temp.pdf
+links.jsonl
